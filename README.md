@@ -1,32 +1,32 @@
-# Sistem Informasi & Portal Layanan Warga RT - Backend API 🇮🇩
+# Sistem Informasi & Portal Layanan Warga RT - Backend API ðŸ‡®ðŸ‡©
 
 Backend RESTful API untuk Sistem Informasi dan Pengelolaan Rukun Tetangga (RT). Dibangun menggunakan **Laravel 10**, menyediakan layanan autentikasi multi-role, pendataan warga, pencatatan keuangan/kas RT, verifikasi bukti bayar iuran, penerbitan surat pengantar, serta papan informasi digital warga.
 
 ---
 
-## 🚀 Fitur Utama
+## ðŸš€ Fitur Utama
 
-- 🔐 **Autentikasi & Multi-Role Akses (Laravel Sanctum)**:
+- ðŸ” **Autentikasi & Multi-Role Akses (Laravel Sanctum)**:
   - **Ketua RT**: Akses penuh, persetujuan (*approval*) dan penolakan surat pengantar, monitoring seluruh modul.
   - **Sekretaris**: Manajemen data warga, arsip surat pengantar, pengelolaan pengumuman & agenda kegiatan.
   - **Bendahara**: Manajemen kas masuk/keluar, verifikasi bukti transfer iuran warga, rekapitulasi keuangan RT.
   - **Warga**: Portal mandiri pengajuan surat, pembayaran/upload bukti transfer iuran, dan melihat pengumuman.
-- 👥 **Manajemen Data Warga**:
+- ðŸ‘¥ **Manajemen Data Warga**:
   - Pendataan kepala keluarga & anggota keluarga (NIK, No. KK, No. Rumah, Blok, Kontak, Status Iuran).
-- 💰 **Pengelolaan Kas & Iuran Warga**:
+- ðŸ’° **Pengelolaan Kas & Iuran Warga**:
   - Pencatatan transaksi pemasukan dan pengeluaran kas RT.
   - Verifikasi bukti transfer bank warga (Menunggu Verifikasi, Terverifikasi, Ditolak).
   - Laporan & rekapitulasi kas berkala.
-- 📄 **Layanan Surat Pengantar Digital**:
+- ðŸ“„ **Layanan Surat Pengantar Digital**:
   - Alur pengajuan surat dari warga.
   - Persetujuan/penolakan dilengkapi catatan administratif RT.
   - Format cetak surat resmi siap unduh/cetak.
-- 📢 **Papan Informasi & Agenda Kegiatan**:
+- ðŸ“¢ **Papan Informasi & Agenda Kegiatan**:
   - Publikasi pengumuman RT, jadwal kerja bakti, pertemuan warga, dan posyandu.
 
 ---
 
-## 🛠️ Tech Stack & Prasyarat
+## ðŸ› ï¸ Tech Stack & Prasyarat
 
 - **PHP**: `^8.1`
 - **Framework**: [Laravel 10](https://laravel.com)
@@ -37,7 +37,7 @@ Backend RESTful API untuk Sistem Informasi dan Pengelolaan Rukun Tetangga (RT). 
 
 ---
 
-## ⚙️ Panduan Instalasi Lokal
+## âš™ï¸ Panduan Instalasi Lokal
 
 Ikuti langkah-langkah di bawah untuk menjalankan backend ini di komputer lokal:
 
@@ -62,14 +62,14 @@ APP_NAME="Warga RT App"
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
-APP_URL=http://localhost:8000
+APP_URL=http://localhost:8001
 
-DB_CONNECTION=mysql
+DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=warga_db
-DB_USERNAME=root
-DB_PASSWORD=
+DB_PORT=5433
+DB_DATABASE=db_warga
+DB_USERNAME=postgres
+DB_PASSWORD=warga07
 ```
 
 ### 4. Generate Application Key
@@ -78,7 +78,7 @@ php artisan key:generate
 ```
 
 ### 5. Buat Database & Jalankan Migrasi
-Pastikan MySQL sudah berjalan (misal melalui Laragon/XAMPP), buat database bernama `warga_db`, lalu jalankan migrasi:
+Pastikan PostgreSQL sudah berjalan (misal melalui Laragon/XAMPP), buat database bernama `warga_db`, lalu jalankan migrasi:
 ```bash
 php artisan migrate
 ```
@@ -96,11 +96,11 @@ php artisan storage:link
 ```bash
 php artisan serve
 ```
-Aplikasi backend API dapat diakses di: **`http://localhost:8000`** atau `http://127.0.0.1:8000`.
+Aplikasi backend API dapat diakses di: **`http://localhost:8001`** atau `http://127.0.0.1:8000`.
 
 ---
 
-## 🛣️ Rangkuman Endpoint API (Direncanakan / Arsitektur)
+## ðŸ›£ï¸ Rangkuman Endpoint API (Direncanakan / Arsitektur)
 
 | Modul | Method | Endpoint | Keterangan |
 |---|---|---|---|
@@ -123,33 +123,33 @@ Aplikasi backend API dapat diakses di: **`http://localhost:8000`** atau `http://
 
 ---
 
-## 📁 Struktur Direktori Utama
+## ðŸ“ Struktur Direktori Utama
 
 ```
 warga-be/
-├── app/
-│   ├── Http/
-│   │   ├── Controllers/   # Controller endpoint API (Warga, Keuangan, Surat, Informasi)
-│   │   └── Middleware/    # Role check & autentikasi
-│   └── Models/            # Model Eloquent (User, Citizen, Transaction, Surat, Announcement)
-├── config/                # Konfigurasi aplikasi, database, sanctum, cors
-├── database/
-│   ├── migrations/        # Skema tabel database
-│   └── seeders/           # Data dummy awal
-├── routes/
-│   ├── api.php            # Routing RESTful API
-│   └── web.php            # Routing web
-└── storage/
-    └── app/public/        # Media upload (bukti transfer, berkas surat)
+â”œâ”€â”€ app/
+â”‚   â”œâ”€â”€ Http/
+â”‚   â”‚   â”œâ”€â”€ Controllers/   # Controller endpoint API (Warga, Keuangan, Surat, Informasi)
+â”‚   â”‚   â””â”€â”€ Middleware/    # Role check & autentikasi
+â”‚   â””â”€â”€ Models/            # Model Eloquent (User, Citizen, Transaction, Surat, Announcement)
+â”œâ”€â”€ config/                # Konfigurasi aplikasi, database, sanctum, cors
+â”œâ”€â”€ database/
+â”‚   â”œâ”€â”€ migrations/        # Skema tabel database
+â”‚   â””â”€â”€ seeders/           # Data dummy awal
+â”œâ”€â”€ routes/
+â”‚   â”œâ”€â”€ api.php            # Routing RESTful API
+â”‚   â””â”€â”€ web.php            # Routing web
+â””â”€â”€ storage/
+    â””â”€â”€ app/public/        # Media upload (bukti transfer, berkas surat)
 ```
 
 ---
 
-## 🤝 Hubungan dengan Frontend
+## ðŸ¤ Hubungan dengan Frontend
 
 Backend ini dirancang berpasangan dengan frontend **`warga-fe`** (React + Vite). Pastikan CORS diaktifkan (`config/cors.php`) agar frontend dapat mengakses endpoint backend tanpa kendala lintas domain (*cross-origin*).
 
 ---
 
-## 📄 Lisensi
+## ðŸ“„ Lisensi
 Proyek ini dibuat untuk keperluan internal pengelolaan RT. Dilisensikan di bawah [MIT License](https://opensource.org/licenses/MIT).

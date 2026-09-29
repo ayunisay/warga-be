@@ -2,21 +2,575 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\Citizen;
+use App\Models\Transaction;
+use App\Models\TransferVerification;
+use App\Models\Surat;
+use App\Models\Announcement;
+use App\Models\RtInfo;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // 1. Seed RT Info
+        RtInfo::create([
+            'name' => 'SAPA WARGA 07',
+            'app_name' => 'SI-WARGA 07',
+            'rt' => '007',
+            'rw' => '030',
+            'kelurahan' => 'Teluk Pucung',
+            'kecamatan' => 'Bekasi Utara',
+            'kota' => 'Kota Bekasi',
+            'provinsi' => 'Jawa Barat',
+            'kode_pos' => '17121',
+            'alamat_sekretariat' => 'Jl. Teluk Pucung Raya No. 07, RT 007 / RW 030',
+            'ketua_rt' => 'H. Bambang Sugiarto, S.T.',
+            'sekretaris' => 'Ahmad Fauzi',
+            'bendahara' => 'Hj. Endang Suryaningsih',
+        ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // 2. Seed Users
+        User::create([
+            'name' => 'H. Bambang Sugiarto, S.T.',
+            'email' => 'ketua.rt007@gmail.com',
+            'nik' => '3275011204850001',
+            'password' => Hash::make('password'),
+            'role' => 'Ketua RT',
+            'jabatan' => 'Ketua RT 007',
+            'telepon' => '0812-3456-7890',
+            'avatar_initial' => 'KT',
+            'status' => 'Aktif',
+        ]);
+
+        User::create([
+            'name' => 'Ahmad Fauzi',
+            'email' => 'sekretaris.rt007@gmail.com',
+            'nik' => '3275018809910008',
+            'password' => Hash::make('password'),
+            'role' => 'Sekretaris',
+            'jabatan' => 'Sekretaris RT 007',
+            'telepon' => '0813-8899-7711',
+            'avatar_initial' => 'AF',
+            'status' => 'Aktif',
+        ]);
+
+        User::create([
+            'name' => 'Hj. Endang Suryaningsih',
+            'email' => 'bendahara.rt007@gmail.com',
+            'nik' => '3275016703800007',
+            'password' => Hash::make('password'),
+            'role' => 'Bendahara',
+            'jabatan' => 'Bendahara RT 007',
+            'telepon' => '0856-7123-9900',
+            'avatar_initial' => 'ES',
+            'status' => 'Aktif',
+        ]);
+
+        User::create([
+            'name' => 'Andi Pratama',
+            'email' => 'andi.pratama@gmail.com',
+            'nik' => '3275012301900003',
+            'password' => Hash::make('password'),
+            'role' => 'Warga',
+            'jabatan' => 'Warga (B2 No. 14)',
+            'telepon' => '0856-7123-9900',
+            'avatar_initial' => 'AP',
+            'status' => 'Aktif',
+        ]);
+
+        // 3. Seed Citizens
+        $citizens = [
+            [
+                'id' => 1,
+                'nik' => '3275011204850001',
+                'no_kk' => '3275010101150001',
+                'nama' => 'Bambang Sugiarto',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Bekasi',
+                'tanggal_lahir' => '1985-04-12',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'Karyawan Swasta',
+                'alamat' => 'Jl. Melati Blok A1 No. 01',
+                'blok' => 'A1',
+                'no_rumah' => '01',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0812-3456-7890',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-03-10',
+            ],
+            [
+                'id' => 2,
+                'nik' => '3275014508880002',
+                'no_kk' => '3275010101150001',
+                'nama' => 'Sri Wahyuni',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Bandung',
+                'tanggal_lahir' => '1988-08-15',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'Guru',
+                'alamat' => 'Jl. Melati Blok A1 No. 01',
+                'blok' => 'A1',
+                'no_rumah' => '01',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0813-8899-7711',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Istri',
+                'tanggal_daftar' => '2026-03-10',
+            ],
+            [
+                'id' => 3,
+                'nik' => '3275012301900003',
+                'no_kk' => '3275010101150002',
+                'nama' => 'Andi Pratama',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Jakarta',
+                'tanggal_lahir' => '1990-01-23',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'Wiraswasta',
+                'alamat' => 'Jl. Mawar Blok B2 No. 14',
+                'blok' => 'B2',
+                'no_rumah' => '14',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0856-7123-9900',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-03-01',
+            ],
+            [
+                'id' => 4,
+                'nik' => '3275015206950004',
+                'no_kk' => '3275010101150003',
+                'nama' => 'Siti Rahmawati',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Bekasi',
+                'tanggal_lahir' => '1995-06-12',
+                'agama' => 'Islam',
+                'status_kawin' => 'Belum Kawin',
+                'pekerjaan' => 'Tenaga Kesehatan',
+                'alamat' => 'Jl. Kenanga Blok A2 No. 08',
+                'blok' => 'A2',
+                'no_rumah' => '08',
+                'status_tinggal' => 'Sementara / Kontrak',
+                'telepon' => '0819-0821-3322',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-02-15',
+            ],
+            [
+                'id' => 5,
+                'nik' => '3275011709780005',
+                'no_kk' => '3275010101150004',
+                'nama' => 'Budi Santoso',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Solo',
+                'tanggal_lahir' => '1978-09-17',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'Pedagang / UMKM',
+                'alamat' => 'Jl. Anggrek Blok D1 No. 12',
+                'blok' => 'D1',
+                'no_rumah' => '12',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0812-9988-1122',
+                'status_iuran' => 'Belum Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-01-20',
+            ],
+            [
+                'id' => 6,
+                'nik' => '3275016503920006',
+                'no_kk' => '3275010101150005',
+                'nama' => 'Rina Wulandari',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Semarang',
+                'tanggal_lahir' => '1992-03-25',
+                'agama' => 'Kristen',
+                'status_kawin' => 'Belum Kawin',
+                'pekerjaan' => 'Akuntan',
+                'alamat' => 'Jl. Flamboyan Blok B1 No. 02',
+                'blok' => 'B1',
+                'no_rumah' => '02',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0877-2233-4455',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Anak',
+                'tanggal_daftar' => '2026-01-10',
+            ],
+            [
+                'id' => 7,
+                'nik' => '3275012810010007',
+                'no_kk' => '3275010101150006',
+                'nama' => 'Dimas Anggara',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Bekasi',
+                'tanggal_lahir' => '2001-10-28',
+                'agama' => 'Islam',
+                'status_kawin' => 'Belum Kawin',
+                'pekerjaan' => 'Mahasiswa',
+                'alamat' => 'Jl. Cempaka Blok C3 No. 05',
+                'blok' => 'C3',
+                'no_rumah' => '05',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0896-1234-5678',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Anak',
+                'tanggal_daftar' => '2025-11-22',
+            ],
+            [
+                'id' => 8,
+                'nik' => '3275010505600008',
+                'no_kk' => '3275010101150007',
+                'nama' => 'H. Hendra Gunawan (Alm)',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Cirebon',
+                'tanggal_lahir' => '1960-05-05',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'Pensiunan',
+                'alamat' => 'Jl. Melati Blok A2 No. 20',
+                'blok' => 'A2',
+                'no_rumah' => '20',
+                'status_tinggal' => 'Mutasi (Meninggal)',
+                'telepon' => '-',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-03-20',
+            ],
+            [
+                'id' => 9,
+                'nik' => '3275011902890009',
+                'no_kk' => '3275010101150008',
+                'nama' => 'Eko Prasetyo',
+                'jenis_kelamin' => 'Laki-laki',
+                'tempat_lahir' => 'Yogyakarta',
+                'tanggal_lahir' => '1989-02-19',
+                'agama' => 'Islam',
+                'status_kawin' => 'Kawin',
+                'pekerjaan' => 'PNS',
+                'alamat' => 'Jl. Cempaka Blok C1 No. 11',
+                'blok' => 'C1',
+                'no_rumah' => '11',
+                'status_tinggal' => 'Mutasi (Pindah Keluar)',
+                'telepon' => '0813-1122-3344',
+                'status_iuran' => 'Lunas',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2026-02-18',
+            ],
+            [
+                'id' => 10,
+                'nik' => '3275014811980010',
+                'no_kk' => '3275010101150009',
+                'nama' => 'Nurhayati',
+                'jenis_kelamin' => 'Perempuan',
+                'tempat_lahir' => 'Bekasi',
+                'tanggal_lahir' => '1998-11-08',
+                'agama' => 'Islam',
+                'status_kawin' => 'Cerai Mati',
+                'pekerjaan' => 'Ibu Rumah Tangga',
+                'alamat' => 'Jl. Anggrek Blok D2 No. 04',
+                'blok' => 'D2',
+                'no_rumah' => '04',
+                'status_tinggal' => 'Tetap',
+                'telepon' => '0857-4455-6677',
+                'status_iuran' => 'Menunggak (2 bln)',
+                'peran_keluarga' => 'Kepala Keluarga',
+                'tanggal_daftar' => '2025-08-14',
+            ]
+        ];
+
+        foreach ($citizens as $citizen) {
+            Citizen::create($citizen);
+        }
+
+        // 4. Seed Transactions
+        $transactions = [
+            [
+                'id' => 'TRX-001',
+                'tanggal' => '27 Maret 2026',
+                'kategori' => 'Pemasukan',
+                'sumber' => 'Iuran Bulanan Blok A (35 Rumah)',
+                'nominal' => 2100000,
+                'keterangan' => 'Iuran Keamanan & Kebersihan Periode Maret 2026',
+                'petugas' => 'Hj. Endang (Bendahara)',
+            ],
+            [
+                'id' => 'TRX-002',
+                'tanggal' => '26 Maret 2026',
+                'kategori' => 'Pemasukan',
+                'sumber' => 'Iuran Bulanan Blok B (38 Rumah)',
+                'nominal' => 2280000,
+                'keterangan' => 'Iuran Keamanan & Kebersihan Periode Maret 2026',
+                'petugas' => 'Hj. Endang (Bendahara)',
+            ],
+            [
+                'id' => 'TRX-003',
+                'tanggal' => '24 Maret 2026',
+                'kategori' => 'Pengeluaran',
+                'sumber' => 'Operasional Keamanan',
+                'nominal' => 1800000,
+                'keterangan' => 'Honor Petugas Keamanan Pos RT 007 (2 Petugas x Rp 900.000)',
+                'petugas' => 'H. Bambang (Ketua RT)',
+            ],
+            [
+                'id' => 'TRX-004',
+                'tanggal' => '22 Maret 2026',
+                'kategori' => 'Pengeluaran',
+                'sumber' => 'Pengangkutan Sampah Lingkungan',
+                'nominal' => 1200000,
+                'keterangan' => 'Biaya Retribusi Truk Sampah Dinas LH Periode Maret',
+                'petugas' => 'Ahmad Fauzi (Sekretaris)',
+            ],
+            [
+                'id' => 'TRX-005',
+                'tanggal' => '18 Maret 2026',
+                'kategori' => 'Pengeluaran',
+                'sumber' => 'Perbaikan Fasilitas Umum',
+                'nominal' => 650000,
+                'keterangan' => 'Penggantian 4 Titik Lampu Jalan LED Tenaga Surya Blok C',
+                'petugas' => 'Koordinator Sie Sarpras',
+            ],
+            [
+                'id' => 'TRX-006',
+                'tanggal' => '15 Maret 2026',
+                'kategori' => 'Pemasukan',
+                'sumber' => 'Sumbangan Sukarela Warga (Kegiatan Buka Bersama)',
+                'nominal' => 3500000,
+                'keterangan' => 'Kas Infaq Ramadhan & Santunan Anak Yatim Warga RT 007',
+                'petugas' => 'Panitia Ramadhan 1447H',
+            ]
+        ];
+
+        foreach ($transactions as $trx) {
+            Transaction::create($trx);
+        }
+
+        // 5. Seed Surats
+        $surats = [
+            [
+                'id' => 'SRT-2026-001',
+                'no_surat' => '045/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Pengantar SKCK (Catatan Kepolisian)',
+                'pemohon' => 'Andi Pratama',
+                'nik' => '3275012301900003',
+                'alamat' => 'Jl. Mawar Blok B2 No. 14',
+                'tujuan' => 'Persyaratan Kelengkapan Berkas Pendaftaran Kerja di BUMN',
+                'tanggal_pengajuan' => '26 Maret 2026',
+                'status' => 'Menunggu Verifikasi',
+                'urgensi' => 'Tinggi',
+                'catatan' => 'Memerlukan tanda tangan basah & stempel RT untuk ke Kelurahan besok pagi.',
+            ],
+            [
+                'id' => 'SRT-2026-002',
+                'no_surat' => '046/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Keterangan Domisili Tempat Tinggal',
+                'pemohon' => 'Siti Rahmawati',
+                'nik' => '3275015206950004',
+                'alamat' => 'Jl. Kenanga Blok A2 No. 08',
+                'tujuan' => 'Syarat Pembukaan Rekening Bank & Kontrak Kerja',
+                'tanggal_pengajuan' => '25 Maret 2026',
+                'status' => 'Menunggu Verifikasi',
+                'urgensi' => 'Sedang',
+                'catatan' => 'KTP asli Jawa Tengah, tinggal di RT 007 sejak Januari 2026.',
+            ],
+            [
+                'id' => 'SRT-2026-003',
+                'no_surat' => '047/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Pengantar Pembuatan KTP Baru',
+                'pemohon' => 'Dimas Anggara',
+                'nik' => '3275012810010007',
+                'alamat' => 'Jl. Cempaka Blok C3 No. 05',
+                'tujuan' => 'Perekaman e-KTP Pemula ke Kantor Kecamatan Bekasi Utara',
+                'tanggal_pengajuan' => '24 Maret 2026',
+                'status' => 'Disetujui',
+                'urgensi' => 'Biasa',
+                'catatan' => 'Berkas Kartu Keluarga dan Akta Kelahiran sudah lengkap.',
+            ],
+            [
+                'id' => 'SRT-2026-004',
+                'no_surat' => '048/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Keterangan Usaha (SKU - UMKM)',
+                'pemohon' => 'Budi Santoso',
+                'nik' => '3275011709780005',
+                'alamat' => 'Jl. Anggrek Blok D1 No. 12',
+                'tujuan' => 'Pengajuan KUR (Kredit Usaha Rakyat) Bank BRI',
+                'tanggal_pengajuan' => '23 Maret 2026',
+                'status' => 'Disetujui',
+                'urgensi' => 'Biasa',
+                'catatan' => 'Usaha Toko Kelontong & Sembako \'Santoso Jaya\' aktif di Blok D1.',
+            ],
+            [
+                'id' => 'SRT-2026-005',
+                'no_surat' => '049/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Pengantar Pengurusan Nikah (N1-N4)',
+                'pemohon' => 'Rina Wulandari',
+                'nik' => '3275016503920006',
+                'alamat' => 'Jl. Flamboyan Blok B1 No. 02',
+                'tujuan' => 'Pendaftaran Pernikahan ke KUA Bekasi Utara',
+                'tanggal_pengajuan' => '22 Maret 2026',
+                'status' => 'Selesai',
+                'urgensi' => 'Sedang',
+                'catatan' => 'Sudah diterbitkan dan diambil berkas aslinya.',
+            ],
+            [
+                'id' => 'SRT-2026-006',
+                'no_surat' => '050/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Keterangan Kematian',
+                'pemohon' => 'Keluarga Alm. Bpk Hendra',
+                'nik' => '3275010505600008',
+                'alamat' => 'Jl. Melati Blok A2 No. 20',
+                'tujuan' => 'Pengurusan Akta Kematian Disdukcapil & Klaim Taspen',
+                'tanggal_pengajuan' => '20 Maret 2026',
+                'status' => 'Selesai',
+                'urgensi' => 'Tinggi',
+                'catatan' => 'Meninggal dunia di RSUD Kota Bekasi karena sakit.',
+            ],
+            [
+                'id' => 'SRT-2026-007',
+                'no_surat' => '051/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Pengantar Pindah Domisili Keluar',
+                'pemohon' => 'Eko Prasetyo',
+                'nik' => '3275011902890009',
+                'alamat' => 'Jl. Cempaka Blok C1 No. 11',
+                'tujuan' => 'Pindah Tugas ASN ke Kabupaten Bogor',
+                'tanggal_pengajuan' => '18 Maret 2026',
+                'status' => 'Selesai',
+                'urgensi' => 'Sedang',
+                'catatan' => 'SKPWNI telah diproses, iuran RT tercatat lunas.',
+            ],
+            [
+                'id' => 'SRT-2026-008',
+                'no_surat' => '052/RT.007-RW.030/TP/III/2026',
+                'jenis_surat' => 'Surat Keterangan Tidak Mampu (SKTM)',
+                'pemohon' => 'Nurhayati',
+                'nik' => '3275014811980010',
+                'alamat' => 'Jl. Anggrek Blok D2 No. 04',
+                'tujuan' => 'Pengajuan KIP Kuliah & Keringanan Biaya Sekolah Anak',
+                'tanggal_pengajuan' => '15 Maret 2026',
+                'status' => 'Selesai',
+                'urgensi' => 'Biasa',
+                'catatan' => 'Surat rekomendasi telah diserahkan ke Kelurahan Teluk Pucung.',
+            ]
+        ];
+
+        foreach ($surats as $surat) {
+            Surat::create($surat);
+        }
+
+        // 6. Seed Announcements
+        $announcements = [
+            [
+                'id' => 1,
+                'judul' => 'Kerja Bakti Saluran Drainase & Fogging',
+                'kategori' => 'Kegiatan Lingkungan',
+                'tanggal' => '29 Mar 2026',
+                'waktu' => '07.30 WIB - Selesai',
+                'lokasi' => 'Lapangan & Saluran RT 007',
+                'icon' => '🧹',
+                'color' => '#3B7594',
+                'deskripsi' => 'Seluruh warga dimohon partisipasinya membersihkan got dan lingkungan menjelang musim hujan. Titik kumpul di Lapangan RT 007 pukul 07.30 WIB.',
+                'status' => 'Aktif',
+                'prioritas' => 'Penting',
+                'penulis' => 'Ketua RT 007'
+            ],
+            [
+                'id' => 2,
+                'judul' => 'Posyandu Balita & Imunisasi Melati 07',
+                'kategori' => 'Kesehatan / Posyandu',
+                'tanggal' => '05 Apr 2026',
+                'waktu' => '08.30 - 11.30 WIB',
+                'lokasi' => 'Balai Pos RT 007',
+                'icon' => '👶',
+                'color' => '#16a34a',
+                'deskripsi' => 'Pemeriksaan tumbuh kembang balita, vitamin A, dan konsultasi gizi balita gratis di Balai Pos RT 007 pukul 08.30 - 11.30 WIB.',
+                'status' => 'Aktif',
+                'prioritas' => 'Rutin',
+                'penulis' => 'Kader Posyandu / Sekretariat'
+            ],
+            [
+                'id' => 3,
+                'judul' => 'Jadwal Pengambilan Sampah Domestik',
+                'kategori' => 'Layanan Kebersihan',
+                'tanggal' => 'Rutin',
+                'waktu' => 'Pagi hari (06.30 - 09.00 WIB)',
+                'lokasi' => 'Depan pagar rumah masing-masing',
+                'icon' => '🚛',
+                'color' => '#f59e0b',
+                'deskripsi' => 'Petugas kebersihan mengambil sampah setiap hari Selasa, Kamis, dan Sabtu pagi. Harap meletakkan sampah dalam kantong tertutup di depan pagar.',
+                'status' => 'Aktif',
+                'prioritas' => 'Informasi Rutin',
+                'penulis' => 'Seksi Kebersihan'
+            ]
+        ];
+
+        foreach ($announcements as $announcement) {
+            Announcement::create($announcement);
+        }
+
+        // 7. Seed Transfer Verifications
+        $transfers = [
+            [
+                'id' => 'TRF-2026-088',
+                'citizen_id' => 3,
+                'nama_warga' => 'Andi Pratama',
+                'blok' => 'B2',
+                'no_rumah' => '14',
+                'periode' => 'April 2026',
+                'nominal' => 60000,
+                'metode' => 'Transfer Bank Mandiri',
+                'rekening_tujuan' => 'Bank Mandiri 156-00-1928374-1 (Kas RT 007)',
+                'tanggal_transfer' => '28 Maret 2026, 14:15 WIB',
+                'no_referensi' => 'MDR-20260328-98124',
+                'bukti_url' => 'struk_mandiri_andi.jpg',
+                'status' => 'Menunggu Verifikasi',
+                'catatan_warga' => 'Sudah ditransfer via Livin Mandiri untuk iuran April 2026',
+                'catatan_bendahara' => '',
+            ],
+            [
+                'id' => 'TRF-2026-089',
+                'citizen_id' => 7,
+                'nama_warga' => 'Dimas Anggara',
+                'blok' => 'C3',
+                'no_rumah' => '05',
+                'periode' => 'April & Mei 2026 (2 Bulan)',
+                'nominal' => 120000,
+                'metode' => 'Transfer Bank BCA',
+                'rekening_tujuan' => 'Bank BCA 731-098-7654 (Kas RT 007)',
+                'tanggal_transfer' => '27 Maret 2026, 19:30 WIB',
+                'no_referensi' => 'BCA-20260327-44021',
+                'bukti_url' => 'struk_bca_dimas.jpg',
+                'status' => 'Menunggu Verifikasi',
+                'catatan_warga' => 'Bayar 2 bulan sekalian Bu Endang, terima kasih',
+                'catatan_bendahara' => '',
+            ],
+            [
+                'id' => 'TRF-2026-085',
+                'citizen_id' => 5,
+                'nama_warga' => 'Budi Santoso',
+                'blok' => 'D1',
+                'no_rumah' => '12',
+                'periode' => 'Maret 2026',
+                'nominal' => 60000,
+                'metode' => 'QRIS Digital RT 007',
+                'rekening_tujuan' => 'NMID: ID1020304050607 (RT 007 Teluk Pucung)',
+                'tanggal_transfer' => '25 Maret 2026, 09:10 WIB',
+                'no_referensi' => 'QRS-20260325-11094',
+                'bukti_url' => 'struk_qris_budi.jpg',
+                'status' => 'Terverifikasi',
+                'catatan_warga' => 'Iuran Maret via QRIS GoPay',
+                'catatan_bendahara' => 'Dana telah masuk di mutasi rekening BCA RT 007',
+            ]
+        ];
+
+        foreach ($transfers as $trf) {
+            TransferVerification::create($trf);
+        }
     }
 }
